@@ -1,0 +1,7 @@
+{
+    "name": "kilroy-web/permissions",
+    "description": "Class-based authorization for Laravel",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "require": {}
+}

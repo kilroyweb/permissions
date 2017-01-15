@@ -1,0 +1,9 @@
+<?php
+
+namespace App\Permissions\Available;
+
+use KilroyWeb\Permissions\BasePermission;
+
+class [CLASSNAME] extends BasePermission {
+
+}
