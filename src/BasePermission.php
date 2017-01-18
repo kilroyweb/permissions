@@ -27,9 +27,7 @@ abstract class BasePermission{
     }
 
     private function idFromClassName(){
-        $reflect = new \ReflectionClass(get_class($this));
-        $name = $reflect->getShortName();
-        return $name;
+        return get_class($this);
     }
 
     private function labelFromClassName(){
