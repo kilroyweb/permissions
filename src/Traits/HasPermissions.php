@@ -38,14 +38,30 @@ trait HasPermissions{
         return get_class($instance);
     }
 
-    public function addPermission($permissionInstance){
+    public function addPermission($permission){
+        $permissionInstance = $this->getInstanceFromUnknown($permission);
         if(!$this->hasPermission($permissionInstance)){
             $permissionClassName = $this->permissionClassNameByInstance($permissionInstance);
-            \App\UserPermission::create([
-                'user_id' => $this->id,
-                'permission' => $permissionClassName,
+            $permissionJoinClass = $this->permissionClass;
+            $permissionJoinClass::create([
+                $this->getPermissionForeignKey() => $this->id,
+                $this->getPermissionLocalKey() => $permissionClassName,
             ]);
         }
+    }
+
+    private function getPermissionForeignKey(){
+        if(isset($this->permissionForeignKey)){
+            return $this->permissionForeignKey;
+        }
+        return $this->getForeignKey();
+    }
+
+    private function getPermissionLocalKey(){
+        if(isset($this->permissionLocalKey)){
+            return $this->permissionLocalKey;
+        }
+        return 'permission';
     }
 
     public function deletePermission($permissionInstance){
@@ -74,8 +90,8 @@ trait HasPermissions{
         }
     }
 
-    public function hasPermission($permissionInstance){
-        $permissionInstance = $this->getInstanceFromUnknown($permissionInstance);
+    public function hasPermission($permission){
+        $permissionInstance = $this->getInstanceFromUnknown($permission);
         if($permissionInstance){
             $permissionClassName = $this->permissionClassNameByInstance($permissionInstance);
             $existingPermission = $this->permissionRecords()->where('permission','=',$permissionClassName)->first();
