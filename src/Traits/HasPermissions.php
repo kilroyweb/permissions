@@ -75,12 +75,25 @@ trait HasPermissions{
     }
 
     public function hasPermission($permissionInstance){
+        $permissionInstance = $this->getInstanceFromAttribute($permissionInstance);
         $permissionClassName = $this->permissionClassNameByInstance($permissionInstance);
-        $existingPermission = $this->permissionClassNames()->where('permission',$permissionClassName)->first();
+        $existingPermission = $this->permissionRecords()->where('permission','=',$permissionClassName)->first();
         if($existingPermission){
             return true;
         }
         return false;
+    }
+
+    private function getInstanceFromAttribute($attribute){
+        if(is_object($attribute)){
+            return $attribute;
+        }else{
+            if(class_exists($attribute)){
+                return new $attribute;
+            }else{
+                abort(500,'Unable to find instance');
+            }
+        }
     }
 
 }
