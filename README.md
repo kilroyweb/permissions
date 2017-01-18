@@ -33,6 +33,12 @@ Schema::create('role_permissions', function (Blueprint $table) {
 });
 ```
 
+and model:
+
+```
+php artisan make:model RolePermission
+```
+
 ## Adding Permissions To A User
 
 Create a new migration: 
@@ -45,3 +51,40 @@ Schema::create('user_permissions', function (Blueprint $table) {
     $table->timestamps();
 });
 ```
+
+and model:
+
+```
+php artisan make:model UserPermission
+```
+
+## Add HasPermissions Trait
+
+Add the HasPermissions trait to your User/Role model:
+
+```
+use \KilroyWeb\Permissions\Traits\HasPermissions;
+```
+
+Along with a pointer to the permission model:
+
+```
+protected $permissionsClass = \App\UserPermission::class;
+```
+
+The trait provides a few useful properties + methods:
+
+$user->permissionClassNames
+
+uses Laravel's hasmany to return the direct linked permission classes
+
+$user->permissions
+
+Returns a collection of permission class instances
+
+Methods for adding/deleting permissions:
+
+$user->addPermission($permissionInstance);
+$user->deletePermission($permissionInstance);
+$user->syncPermissions($permissionInstances);
+

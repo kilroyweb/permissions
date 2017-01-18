@@ -46,7 +46,7 @@ class PermissionCreator{
         $permissionsFilePath = config_path().'/permissions.php';
         $permissionsContents = file_get_contents($permissionsFilePath);
         $lineSearch = "'available' => [";
-        $newLine = PHP_EOL.'        App\Permissions\Available\\'.$this->className.'::class,';
+        $newLine = PHP_EOL.'        App\Permissions\\'.$this->className.'::class,';
         if(strstr($permissionsContents,$newLine)){
             $this->interface->error('Permission already in Config');
         }else{
