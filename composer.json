@@ -8,5 +8,12 @@
         "psr-4": {
             "KilroyWeb\\Permissions\\": "src"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "KilroyWeb\\Permissions\\Providers\\PermissionServiceProvider"
+            ]
+        }
     }
 }
